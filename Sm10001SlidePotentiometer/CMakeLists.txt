@@ -1,0 +1,11 @@
+target_sources(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
+PRIVATE FILE_SET headers TYPE HEADERS BASE_DIRS ${CMAKE_CURRENT_LIST_DIR} FILES
+  Sm10001SlidePotentiometer.hpp
+)
+
+target_sources(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
+PRIVATE
+  Sm10001SlidePotentiometer.cpp
+)
+
+target_include_directories(${PROJECT_NAME}${EXECUTABLE_SUFFIX} PUBLIC ${CMAKE_CURRENT_LIST_DIR})

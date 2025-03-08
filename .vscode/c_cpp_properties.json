@@ -1,0 +1,41 @@
+// https://code.visualstudio.com/docs/cpp/configure-intellisense
+{
+    "configurations": [
+        {
+            "name": "ESP32S3",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${userHome}/esp/esp-idf/components/**"
+            ],
+            "defines": [],
+            "compilerPath": "${userHome}/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-g++",
+            "cStandard": "c23",
+            "cppStandard": "gnu++23",
+            "intelliSenseMode": "linux-gcc-arm"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c23",
+            "cppStandard": "gnu++23",
+            "intelliSenseMode": "linux-gcc-x64"
+        },
+        {
+            "name": "Cc32xx",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${userHome}/ti/simplelink_cc32xx_sdk_7_10_00_13/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c23",
+            "cppStandard": "gnu++23",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
