@@ -1,0 +1,33 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+      {
+        //Documentation for this tool is in the SDK.
+        //ti/simplelink_cc32xx_sdk_7_10_00_13/tools/cc32xx_tools/uniflash-project-generator/README.html
+        //NOTE: This has failed permanently before because I had a 0 byte favicon.ico file that this program
+        //did not like and was not very helpful with the error message.
+        "label": "CC3220SF flash",
+        "type": "shell",
+        "command": "./uniflash_project_generator",
+        "args": [
+            "--name",
+            "SlidePotentiometer",
+            "--device",
+            "CC3220SF",
+            "--mcu_bin",
+            "${workspaceFolder}/customToolchain_build/Sm10001SlidePotentiometer.bin",
+            "--flash",
+            "--use_from_uniflash",
+            "--debug",
+        ],
+        "options": {
+            //Must be ran from the same directory as the program because it's hardcoded to find the service pack and won't run even with --no_sp
+            //Make sure the jumper on J13 is set to 001.
+            //https://www.ti.com/lit/ug/swru463b/swru463b.pdf
+            "cwd":"${workspaceFolder}/ccsToCMake/simplelink_cc32xx_sdk_7_10_00_13/tools/cc32xx_tools/uniflash-project-generator/"
+        }
+      }
+    ]
+  }
