@@ -17,7 +17,7 @@
             "type": "cppdbg",
             "request": "launch",
             "name": "MacOs Debug",
-            "program": "${workspaceFolder}\\Darwin_build\\SlidePotentiometer.Mach-O",
+            "program": "${workspaceFolder}\\Darwin_build\\Sm10001SlidePotentiometer.Mach-O",
             "cwd": "${workspaceFolder}",
             "stopAtEntry": true,
             "MIMode": "lldb"
@@ -26,7 +26,7 @@
             "type": "cppdbg",
             "request": "launch",
             "name": "Linux Debug",
-            "program": "${workspaceFolder}\\Linux_build\\SlidePotentiometer.elf",
+            "program": "${workspaceFolder}\\Linux_build\\Sm10001SlidePotentiometer.elf",
             "cwd": "${workspaceFolder}",
             "stopAtEntry": true,
             "MIMode": "gdb",
@@ -44,7 +44,7 @@
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "name": "ESP Debug",
-            "program": "${workspaceFolder}\\build\\SlidePotentiometer.elf",
+            "program": "${workspaceFolder}\\build\\Sm10001SlidePotentiometer.elf",
             "targetArchitecture": "arm",
             "MIMode": "gdb",
             "miDebuggerPath": "xtensa-esp32s3-elf-gdb",
@@ -54,7 +54,7 @@
                     "ignoreFailures": false
                 },
                 {
-                    "text": "-file-exec-and-symbols SlidePotentiometer.elf",
+                    "text": "-file-exec-and-symbols Sm10001SlidePotentiometer.elf",
                     "ignoreFailures": false
                 },
                 {
@@ -108,7 +108,7 @@
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "name": "CC3220SF Launchpad Debug",
-            "program": "${workspaceFolder}\\customToolchain_build/SlidePotentiometer.elf",
+            "program": "${workspaceFolder}\\customToolchain_build/Sm10001SlidePotentiometer.elf",
             "targetArchitecture": "arm",
             "MIMode": "gdb",
             "miDebuggerPath": "${userHome}/ti/ccs1281/ccs/tools/compiler/gcc-arm-none-eabi-9-2019-q4-major/bin/arm-none-eabi-gdb",
@@ -118,7 +118,7 @@
                     "ignoreFailures": false
                 },
                 {
-                    "text": "-file-exec-and-symbols SlidePotentiometer.elf",
+                    "text": "-file-exec-and-symbols Sm10001SlidePotentiometer.elf",
                     "ignoreFailures": false
                 },
                 {
