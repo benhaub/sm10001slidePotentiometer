@@ -116,8 +116,8 @@ if __name__ == '__main__':
   #print("{}".format(args))
   executableName = 'SlidePotentiometer'
   systemName, cCompiler, cxxCompiler, executableSuffix, debugger, rootPermissionRequired = setupForPlatform(system())
-  if (args.toolchain != None):
-      buildDirectoryName = 'customToolchain_build'
+  if (args.target != None):
+      buildDirectoryName = args.target.strip('\'') + '_build'
   else:
       buildDirectoryName = systemName + '_build'
 

@@ -36,6 +36,27 @@ if (Cc32xx)
     MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Spiffs
   )
 
+#python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Raspbian12
+elseif(Raspbian12)
+  message(STATUS "Building for Raspbian 12")
+
+  project(Sm10001SlidePotentiometer LANGUAGES C CXX)
+
+  set(EXECUTABLE_SUFFIX ".elf")
+  add_executable(${PROJECT_NAME}${EXECUTABLE_SUFFIX} main.cpp)
+
+  set(CMAKE_C_FLAGS "-std=gnu2x ${CMAKE_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "-std=gnu++23 ${CMAKE_CXX_FLAGS}")
+
+  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/raspbian12.cmake)
+
+  #The partition type when running on a desktop doesn't really matter. It could be set to anything.
+  target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
+  PRIVATE
+    MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Ntfs
+    NO_ROM_SERVER
+  )
+
 #idf.py build
 elseif (ESP_PLATFORM)
   message(STATUS "Building for ESP")
