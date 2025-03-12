@@ -6,8 +6,18 @@
 #ifndef __SM10001_SLIDE_POTENTIOMETER_HPP__
 #define __SM10001_SLIDE_POTENTIOMETER_HPP__
 
+//AbstractionLayer
 #include "Global.hpp"
 #include "Error.hpp"
+#include "Sm10001.hpp"
+
+namespace Sm10001SlidePotentiometerTypes {
+    enum class PwmType : uint8_t {
+        Unknown = 0,
+        Gptm,
+        Standalone
+    };
+}
 
 class Sm10001SlidePotentiometer : public Global<Sm10001SlidePotentiometer> {
 
@@ -15,6 +25,9 @@ class Sm10001SlidePotentiometer : public Global<Sm10001SlidePotentiometer> {
     static constexpr char TAG[] = "Sm10001SlidePotentiometer";
 
     ErrorType slidePotentiometerThread();
+
+    private:
+    ErrorType initSlidePot(Sm10001SlidePotentiometerTypes::PwmType pwmType, std::unique_ptr<Sm10001> &sm10001);
 };
 
 #ifdef __cplusplus
