@@ -50,11 +50,8 @@ elseif(Raspbian12Pi4ModelB)
 
   include(${CMAKE_SOURCE_DIR}/AbstractionLayer/raspbian12Pi4ModelB.cmake)
 
-  #The partition type when running on a desktop doesn't really matter. It could be set to anything.
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
-    MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Ntfs
-    NO_ROM_SERVER
     #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
     SLIDE_POT_PIN_A=19
     SLIDE_POT_PIN_B=13
@@ -80,6 +77,13 @@ elseif (ESP_PLATFORM)
   #ESP projects require the project line to be declared after the include
   project(SlidePotentiometer)
   include(AbstractionLayer/esp.cmake)
+
+  target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
+  PRIVATE
+    #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
+    SLIDE_POT_PIN_A=0
+    SLIDE_POT_PIN_B=2
+  )
 
 #Even if cross-compiling, your host system name will still be present so cross compiled targets should be evaluated first.
 #python3 apf.py build
