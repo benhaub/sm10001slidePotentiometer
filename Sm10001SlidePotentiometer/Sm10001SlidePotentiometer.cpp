@@ -17,9 +17,9 @@ ErrorType Sm10001SlidePotentiometer::slidePotentiometerThread() {
     Volts previousVoltageDrop = 0.0f;
     const Volts hysteresis = 0.1f;
     while (1) {
-        assert(ErrorType::Success == sm10001.slideForward());
+        assert(ErrorType::Success == sm10001->slideForward());
         OperatingSystem::Instance().delay(Milliseconds(5000));
-        assert(ErrorType::Success == sm10001.slideBackward());
+        assert(ErrorType::Success == sm10001->slideBackward());
         OperatingSystem::Instance().delay(Milliseconds(5000));
         if (ErrorType::Success == (error = sm10001->getVoltageDrop(potentiometerVoltageDrop))) {
             if (std::abs(potentiometerVoltageDrop - previousVoltageDrop) > hysteresis) {
