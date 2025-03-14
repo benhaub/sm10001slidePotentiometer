@@ -38,7 +38,7 @@ if (Cc32xx)
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Raspbian12Pi4ModelB
 elseif(Raspbian12Pi4ModelB)
-  message(STATUS "Building for Raspbian 12")
+  message(STATUS "Building for Raspbian 12 on Pi4 Model B")
 
   project(Sm10001SlidePotentiometer LANGUAGES C CXX)
 
@@ -55,6 +55,9 @@ elseif(Raspbian12Pi4ModelB)
   PRIVATE
     MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Ntfs
     NO_ROM_SERVER
+    #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
+    SLIDE_POT_PIN_A=19
+    SLIDE_POT_PIN_B=13
   )
 
 #idf.py build

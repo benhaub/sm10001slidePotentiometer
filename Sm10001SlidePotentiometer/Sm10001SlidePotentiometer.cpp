@@ -21,7 +21,7 @@ ErrorType Sm10001SlidePotentiometer::slidePotentiometerThread() {
 
     hBridge->setPwms(gptPwms);
 
-    Sm10001 sm10001(hBridge, adc, PinNumber(0), PinNumber(2));
+    Sm10001 sm10001(hBridge, adc, PinNumber(SLIDE_POT_PIN_A), PinNumber(SLIDE_POT_PIN_B));
     assert(ErrorType::Success == sm10001.init());
 
     Volts potentiometerVoltageDrop = 0.0f;
@@ -58,7 +58,7 @@ ErrorType Sm10001SlidePotentiometer::initSlidePot(Sm10001SlidePotentiometerTypes
 
         hBridge->setPwms(gptPwms);
 
-        sm10001 = std::make_unique<Sm10001>(hBridge, adc, PinNumber(0), PinNumber(2));
+        sm10001 = std::make_unique<Sm10001>(hBridge, adc, PinNumber(SLIDE_POT_PIN_A), PinNumber(SLIDE_POT_PIN_B));
         assert(ErrorType::Success == sm10001->init());
         return ErrorType::Success;
     }
@@ -79,7 +79,7 @@ ErrorType Sm10001SlidePotentiometer::initSlidePot(Sm10001SlidePotentiometerTypes
 
         hBridge->setPwms(pwms);
 
-        sm10001 = std::make_unique<Sm10001>(hBridge, adc, PinNumber(0), PinNumber(2));
+        sm10001 = std::make_unique<Sm10001>(hBridge, adc, PinNumber(SLIDE_POT_PIN_A), PinNumber(SLIDE_POT_PIN_B));
         assert(ErrorType::Success == sm10001->init());
         return ErrorType::Success;
     }
