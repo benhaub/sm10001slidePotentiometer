@@ -55,6 +55,7 @@ elseif(Raspbian12Pi4ModelB)
     #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
     SLIDE_POT_PIN_A=19
     SLIDE_POT_PIN_B=13
+    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Gptm
   )
 
 #idf.py build
@@ -83,6 +84,7 @@ elseif (ESP_PLATFORM)
     #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
     SLIDE_POT_PIN_A=0
     SLIDE_POT_PIN_B=2
+    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Gptm
   )
 
 #Even if cross-compiling, your host system name will still be present so cross compiled targets should be evaluated first.
