@@ -34,7 +34,7 @@ static void startSlidePotentiometer(Sm10001SlidePotentiometer &slidePotentiomete
     //Platforms (especially desktop platforms like Linux and Darwin) that don't have the concept of starting a scheduler will
     //join threads instead. Other targets that run on embedded RTOSs like Azure, Zephyr, and FreeRTOS never return after
     //starting the scheduler.
-    OperatingSystem::Instance().joinThread(slidePotentiometerThreadName);
+    assert(ErrorType::NoData != OperatingSystem::Instance().joinThread(slidePotentiometerThreadName));
 }
 
 static void initGlobals() {
