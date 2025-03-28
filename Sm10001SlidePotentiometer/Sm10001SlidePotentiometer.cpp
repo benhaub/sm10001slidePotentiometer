@@ -1,8 +1,10 @@
 #include "Sm10001SlidePotentiometer.hpp"
-#include "Sm10001.hpp"
 #include "Log.hpp"
 #include "OperatingSystemModule.hpp"
 #include "AdcModule.hpp"
+#include "HBridge.hpp"
+#include "GptmPwmModule.hpp"
+#include "PwmModule.hpp"
 
 ErrorType Sm10001SlidePotentiometer::slidePotentiometerThread() {
     ErrorType error = ErrorType::Failure;
@@ -41,9 +43,9 @@ ErrorType Sm10001SlidePotentiometer::initSlidePot(Sm10001SlidePotentiometerTypes
     if (pwmType == Sm10001SlidePotentiometerTypes::PwmType::Gptm) {
         ErrorType error = ErrorType::Failure;
 
-        std::unique_ptr<Sm10001Drivers::HBridge> hBridge = std::make_unique<Sm10001Drivers::Drv8872>();
+        std::unique_ptr<HBridgeAbstraction> hBridge = std::make_unique<HBridge>();
         assert(nullptr != hBridge.get());
-        std::unique_ptr<Adc> adc = std::make_unique<Adc>();
+        std::unique_ptr<AdcAbstraction> adc = std::make_unique<Adc>();
         assert(nullptr != adc.get());
         adc->peripheralNumber() = PeripheralNumber::Zero;
         adc->channel() = AdcTypes::Channel::Four;
@@ -52,12 +54,11 @@ ErrorType Sm10001SlidePotentiometer::initSlidePot(Sm10001SlidePotentiometerTypes
                 PLT_LOGI(TAG, "Adc not implemented for this platform.");
             }
         }
-        std::vector<GptmPwmModule> gptPwms;
-        gptPwms.reserve(2);
-        gptPwms.emplace_back(GptmPwmModule());
-        gptPwms.at(0).peripheralNumber() = PeripheralNumber::Zero;
-        gptPwms.emplace_back(GptmPwmModule());
-        gptPwms.at(1).peripheralNumber() = PeripheralNumber::One;
+        std::array<std::unique_ptr<GptmPwmAbstraction>, 2> gptPwms;
+        gptPwms.at(0) = std::make_unique<GptmPwmModule>();
+        gptPwms.at(0)->peripheralNumber() = PeripheralNumber::Zero;
+        gptPwms.at(1) = std::make_unique<GptmPwmModule>();
+        gptPwms.at(1)->peripheralNumber() = PeripheralNumber::One;
 
         hBridge->setPwms(gptPwms);
 
@@ -68,9 +69,9 @@ ErrorType Sm10001SlidePotentiometer::initSlidePot(Sm10001SlidePotentiometerTypes
     else if (pwmType == Sm10001SlidePotentiometerTypes::PwmType::Standalone) {
         ErrorType error = ErrorType::Failure;
 
-        std::unique_ptr<Sm10001Drivers::HBridge> hBridge = std::make_unique<Sm10001Drivers::Drv8872>();
+        std::unique_ptr<HBridgeAbstraction> hBridge = std::make_unique<HBridge>();
         assert(nullptr != hBridge.get());
-        std::unique_ptr<Adc> adc = std::make_unique<Adc>();
+        std::unique_ptr<AdcAbstraction> adc = std::make_unique<Adc>();
         assert(nullptr != adc.get());
         adc->peripheralNumber() = PeripheralNumber::Zero;
         adc->channel() = AdcTypes::Channel::Four;
@@ -79,12 +80,11 @@ ErrorType Sm10001SlidePotentiometer::initSlidePot(Sm10001SlidePotentiometerTypes
                 PLT_LOGI(TAG, "Adc not implemented for this platform.");
             }
         }
-        std::vector<Pwm> pwms;
-        pwms.reserve(2);
-        pwms.emplace_back(Pwm());
-        pwms.at(0).peripheralNumber() = PeripheralNumber::Zero;
-        pwms.emplace_back(Pwm());
-        pwms.at(1).peripheralNumber() = PeripheralNumber::One;
+        std::array<std::unique_ptr<PwmAbstraction>, 2> pwms;
+        pwms.at(0) = std::make_unique<Pwm>();
+        pwms.at(0)->peripheralNumber() = PeripheralNumber::Zero;
+        pwms.at(1) = std::make_unique<Pwm>();
+        pwms.at(1)->peripheralNumber() = PeripheralNumber::One;
 
         hBridge->setPwms(pwms);
 

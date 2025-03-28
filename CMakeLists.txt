@@ -34,6 +34,8 @@ if (Cc32xx)
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
     MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Spiffs
+    SLIDE_POT_PIN_A=-1
+    SLIDE_POT_PIN_B=-1
   )
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Raspbian12Pi4ModelB
@@ -100,6 +102,14 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
   set(CMAKE_C_FLAGS "-std=gnu2x ${CMAKE_C_FLAGS}")
   set(CMAKE_CXX_FLAGS "-std=gnu++23 ${CMAKE_CXX_FLAGS}")
   include(AbstractionLayer/linux.cmake)
+
+  target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
+  PRIVATE
+    #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
+    SLIDE_POT_PIN_A=-1
+    SLIDE_POT_PIN_B=-1
+    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Gptm
+  )
 
 else()
   message(FATAL_ERROR "Invalid or unsupported target specified")

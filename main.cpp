@@ -20,7 +20,7 @@ static void startSlidePotentiometer(Sm10001SlidePotentiometer &slidePotentiomete
 #endif
 
     Id slidePotentiometerId;
-    const std::string slidePotentiometerThreadName("slidePotentiometerThread");
+    constexpr std::array<char, OperatingSystemConfig::MaxThreadNameLength> slidePotentiometerThreadName = {"slidePot"};
 
     OperatingSystem::Instance().createThread(OperatingSystemConfig::Priority::Normal,
                                              slidePotentiometerThreadName,
