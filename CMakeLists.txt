@@ -38,6 +38,38 @@ if (Cc32xx)
     SLIDE_POT_PIN_B=-1
   )
 
+#python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Tm4c123
+elseif (Tm4c123)
+  message(STATUS "Building for Tm4c123")
+
+  project(automaticPetFeeder LANGUAGES C CXX)
+
+  set(EXECUTABLE_SUFFIX ".elf")
+  add_executable(${PROJECT_NAME}${EXECUTABLE_SUFFIX} main.cpp)
+
+  #Order matters!
+  include(${CMAKE_CURRENT_LIST_DIR}/ccsToCMake/Tm4c123/target.cmake)
+  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/tm4c123.cmake)
+
+  add_custom_command(TARGET ${PROJECT_NAME}${EXECUTABLE_SUFFIX} POST_BUILD
+  COMMAND
+  ${CMAKE_OBJCOPY} ARGS -O binary ${CMAKE_SOURCE_DIR}/Tm4c123_build/${PROJECT_NAME}${EXECUTABLE_SUFFIX} ${CMAKE_SOURCE_DIR}/Tm4c123_build/${PROJECT_NAME}.bin
+    WORKING_DIRECTORY
+      ${CMAKE_CURRENT_LIST_DIR}
+    COMMENT
+      "Stripping executable"
+    VERBATIM
+  )
+
+  target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
+  PRIVATE
+    MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Unknown
+    SLIDE_POT_PIN_A=-1
+    SLIDE_POT_PIN_B=-1
+    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Standalone
+    APP_CLOCK_FREQUENCY=80E6
+  )
+
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Raspbian12Pi4ModelB
 elseif(Raspbian12Pi4ModelB)
   message(STATUS "Building for Raspbian 12 on Pi4 Model B")
