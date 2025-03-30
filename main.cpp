@@ -12,20 +12,13 @@
 #include "Sm10001SlidePotentiometer.hpp"
 
 static void startSlidePotentiometer(Sm10001SlidePotentiometer &slidePotentiometer) {
-    constexpr uint16_t kilobytes = 1024;
-#if __XTENSA__
-    constexpr uint16_t thisMany = 16;
-#else
-    constexpr uint16_t thisMany = 2;
-#endif
-
     Id slidePotentiometerId;
     constexpr std::array<char, OperatingSystemConfig::MaxThreadNameLength> slidePotentiometerThreadName = {"slidePot"};
 
     OperatingSystem::Instance().createThread(OperatingSystemConfig::Priority::Normal,
                                              slidePotentiometerThreadName,
                                              &slidePotentiometer,
-                                             thisMany*kilobytes,
+                                             APP_DEFAULT_STACK_SIZE,
                                              startSlidePotentiometerThread,
                                              slidePotentiometerId);
 
@@ -52,6 +45,7 @@ int main(void) {
     Gpio gpio;
 
     prcm.init();
+    prcm.setClockFrequency(Hertz(APP_CLOCK_FREQUENCY), Hertz(APP_EXTERNAL_CRYSTAL_FREQUENCY));
 
     gpio.setHardwareConfig(nullptr, PinNumber(-1), GpioTypes::PinDirection::DigitalUnknown, GpioTypes::InterruptMode::Unknown, false, false);
     gpio.init();
