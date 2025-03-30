@@ -18,7 +18,7 @@ if (Cc32xx)
 
   #Order matters!
   include(${CMAKE_SOURCE_DIR}/AbstractionLayer/cc32xx.cmake)
-  include(${CMAKE_CURRENT_LIST_DIR}/ccsToCMake/cc32xx.cmake)
+  include(${CMAKE_CURRENT_LIST_DIR}/ccsToCMake/Cc32xx/target.cmake)
 
   add_custom_command(TARGET ${PROJECT_NAME}${EXECUTABLE_SUFFIX} POST_BUILD
   COMMAND
