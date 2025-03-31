@@ -68,8 +68,8 @@ elseif (Tm4c123)
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
     MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Unknown
-    SLIDE_POT_PIN_A=-1
-    SLIDE_POT_PIN_B=-1
+    SLIDE_POT_PIN_A=0xD0
+    SLIDE_POT_PIN_B=0xD1
     PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Standalone
     APP_CLOCK_FREQUENCY=80E6
     APP_EXTERNAL_CRYSTAL_FREQUENCY=16E6
