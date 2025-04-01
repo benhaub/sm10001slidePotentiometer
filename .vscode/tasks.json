@@ -28,6 +28,24 @@
             //https://www.ti.com/lit/ug/swru463b/swru463b.pdf
             "cwd":"${workspaceFolder}/ccsToCMake/simplelink_cc32xx_sdk_7_10_00_13/tools/cc32xx_tools/uniflash-project-generator/"
         }
+      },
+      {
+        //You can try to use the sflash tool that comes with the SDK but it might have to be built first. The premade binaries are for windows.
+        //There is a bug in the toolsdefs file that prevents the makefile from detecting a non-windows system, you will have to make the following
+        //change on line 45:
+        //-ifeq (${TOOLS_PREFIX}, )
+        //+ifeq (${TOOLS_PREFIX},"")
+        //Even after running I was getting errors that it was unable to configure Host UART. lm4flash seems to work flawlessly. The only downside is
+        //that it doesn't come with the SDK.
+        "label": "Tm4c123 flash",
+        "type": "shell",
+        "command": "lm4flash",
+        "args": [
+          "-E",
+          "-S",
+          "0x00000000",
+          "${workspaceFolder}/Tm4c123_build/automaticPetFeeder.bin"
+        ]
       }
     ]
-  }
+  } 

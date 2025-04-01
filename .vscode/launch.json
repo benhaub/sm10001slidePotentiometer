@@ -163,6 +163,63 @@
             "debugServerArgs": "-f board/ti_cc3220sf_launchpad.cfg",
             "filterStderr": true,
             "filterStdout": true
+        },
+        {
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "name": "Tm4c123 Launchpad Debug",
+            "program": "${workspaceFolder}\\Tm4c123_build/automaticPetFeeder.elf",
+            "targetArchitecture": "arm",
+            "MIMode": "gdb",
+            "miDebuggerPath": "${userHome}/ti/ccs1281/ccs/tools/compiler/gcc-arm-none-eabi-9-2019-q4-major/bin/arm-none-eabi-gdb",
+            "setupCommands": [
+                {
+                    "text": "-environment-cd ${workspaceFolder}/Tm4c123_build",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "-file-exec-and-symbols automaticPetFeeder.elf",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "set remotetimeout 20",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "-break-insert main",
+                    "ignoreFailures": false
+                }
+            ],
+            "customLaunchSetupCommands": [
+                {
+                    "text": "target extended-remote localhost:3333",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "monitor reset",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "monitor halt",
+                    "ignoreFailure": false
+                },
+                {
+                    "text": "break main",
+                    "ignoreFailures": false
+                }
+            ],
+            "showDisplayString": false,
+            "miDebuggerServerAddress": "localhost:3333",
+            "launchCompleteCommand": "None",
+            "debugServerPath": "openocd",
+            "debugServerArgs": "-f board/ti_ek-tm4c123gxl.cfg",
+            "filterStderr": true,
+            "filterStdout": true
         }
     ]
 }

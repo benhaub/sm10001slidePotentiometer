@@ -82,7 +82,7 @@ ErrorType Sm10001SlidePotentiometer::initSlidePot(Sm10001SlidePotentiometerTypes
         }
         std::array<std::unique_ptr<PwmAbstraction>, 2> pwms;
         pwms.at(0) = std::make_unique<Pwm>();
-        pwms.at(0)->peripheralNumber() = PeripheralNumber::Zero;
+        pwms.at(0)->peripheralNumber() = PeripheralNumber::One;
         pwms.at(1) = std::make_unique<Pwm>();
         pwms.at(1)->peripheralNumber() = PeripheralNumber::One;
 
