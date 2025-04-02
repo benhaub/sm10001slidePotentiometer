@@ -9,3 +9,7 @@ PRIVATE
 )
 
 target_include_directories(${PROJECT_NAME}${EXECUTABLE_SUFFIX} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+
+if (ESP_PLATFORM)
+  target_compile_definitions(__idf_main PRIVATE $<TARGET_PROPERTY:${PROJECT_NAME}${EXECUTABLE_SUFFIX},COMPILE_DEFINITIONS>)
+endif()
