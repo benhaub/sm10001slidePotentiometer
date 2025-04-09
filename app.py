@@ -21,8 +21,7 @@ def installationName(programName):
    if system() == 'Darwin' or system() == 'Linux':
       if 'ninja' == programName:
          return 'ninja-build'
-      elif 'gcc@12' == programName:
-         return 'gcc-12'
+         
    return programName
 
 def installProgram(systemName, programName):
@@ -41,14 +40,12 @@ def setupForPlatform(systemName):
   debugger = 'gdb'
 
   if systemName == 'Darwin':
-      cxxCompiler = which('g++-12')
-      cCompiler =  which('gcc-12')
+      cxxCompiler = which('clang++')
+      cCompiler =  which('clang')
       debugger = 'lldb'
       executableSuffix = '.Mach-O'
-      #https://gist.github.com/scivision/d69faebbc56da9714798087b56de925a
-      environ['SDKROOT'] = '/Library/Developer/CommandLineTools/SDKs/MacOSX12.sdk'
 
-      requiredSoftware = ['gcc@12', 'cmake', 'ninja', 'git', 'openocd']
+      requiredSoftware = ['cmake', 'ninja', 'git', 'openocd']
       for software in requiredSoftware:
          installProgram(systemName, software)
 
