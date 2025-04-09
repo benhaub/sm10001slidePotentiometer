@@ -40,6 +40,7 @@ if (Cc32xx)
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
+    POTENTIOMETER_DROP_MAX=3.3f
   )
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Tm4c123
@@ -74,6 +75,7 @@ elseif (Tm4c123)
     APP_CLOCK_FREQUENCY=80E6
     APP_EXTERNAL_CRYSTAL_FREQUENCY=16E6
     APP_DEFAULT_STACK_SIZE=1024
+    POTENTIOMETER_DROP_MAX=3.3f
   )
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Raspbian12Pi4ModelB
@@ -99,6 +101,7 @@ elseif(Raspbian12Pi4ModelB)
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
+    POTENTIOMETER_DROP_MAX=3.3f
   )
 
 #idf.py build
@@ -131,6 +134,7 @@ elseif (ESP_PLATFORM)
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=16*1024
+    POTENTIOMETER_DROP_MAX=3.3f
   )
 
 #Even if cross-compiling, your host system name will still be present so cross compiled targets should be evaluated first.
@@ -156,6 +160,7 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
+    POTENTIOMETER_DROP_MAX=3.3f
   )
 
 else()
