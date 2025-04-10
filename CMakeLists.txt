@@ -149,6 +149,7 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
 
   set(CMAKE_C_FLAGS "-std=gnu2x ${CMAKE_C_FLAGS}")
   set(CMAKE_CXX_FLAGS "-std=gnu++23 ${CMAKE_CXX_FLAGS}")
+
   include(AbstractionLayer/linux.cmake)
 
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
