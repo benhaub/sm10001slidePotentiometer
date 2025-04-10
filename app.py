@@ -45,7 +45,7 @@ def setupForPlatform(systemName):
       debugger = 'lldb'
       executableSuffix = '.Mach-O'
 
-      requiredSoftware = ['cmake', 'ninja', 'git', 'openocd']
+      requiredSoftware = ['cmake', 'ninja', 'git', 'openocd', 'wget']
       for software in requiredSoftware:
          installProgram(systemName, software)
 
@@ -57,7 +57,7 @@ def setupForPlatform(systemName):
       #In order to run the operating system on linux with the real-time scheduler settings you must run as root.
       rootPermissionRequired = True
 
-      requiredSoftware = ['cmake', 'ninja', 'git', 'openocd']
+      requiredSoftware = ['cmake', 'ninja', 'git', 'openocd', 'wget']
       for software in requiredSoftware:
          installProgram(systemName, software)
 

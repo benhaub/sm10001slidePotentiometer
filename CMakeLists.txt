@@ -191,8 +191,8 @@ target_compile_options(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
 PUBLIC
   -ffunction-sections
   -fdata-sections
-  -fno-exceptions
   -Wall
+  $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
 )
 
 add_subdirectory(Sm10001SlidePotentiometer)
