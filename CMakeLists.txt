@@ -7,6 +7,8 @@ cmake_policy(SET CMP0067 NEW)
 
 include(custom_functions.cmake)
 
+set(CMAKE_CXX_STANDARD 23)
+
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target CC32xx
 if (Cc32xx)
   message(STATUS "Building for Cc32xx")
@@ -36,11 +38,12 @@ if (Cc32xx)
     MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Spiffs
     SLIDE_POT_PIN_A=-1
     SLIDE_POT_PIN_B=-1
-    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Gptm
+    PWM_TYPE=HBridgeTypes::PwmType::Gptm
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
     POTENTIOMETER_DROP_MAX=3.3f
+    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
   )
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Tm4c123
@@ -71,11 +74,13 @@ elseif (Tm4c123)
     MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Unknown
     SLIDE_POT_PIN_A=0xD0
     SLIDE_POT_PIN_B=0xD1
-    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Standalone
+    PWM_TYPE=HBridgeTypes::PwmType::Standalone
     APP_CLOCK_FREQUENCY=80E6
     APP_EXTERNAL_CRYSTAL_FREQUENCY=16E6
     APP_DEFAULT_STACK_SIZE=1024
     POTENTIOMETER_DROP_MAX=3.3f
+    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
+
   )
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Raspbian12Pi4ModelB
@@ -87,9 +92,6 @@ elseif(Raspbian12Pi4ModelB)
   set(EXECUTABLE_SUFFIX ".elf")
   add_executable(${PROJECT_NAME}${EXECUTABLE_SUFFIX} main.cpp)
 
-  set(CMAKE_C_FLAGS "-std=gnu2x ${CMAKE_C_FLAGS}")
-  set(CMAKE_CXX_FLAGS "-std=gnu++23 ${CMAKE_CXX_FLAGS}")
-
   include(${CMAKE_SOURCE_DIR}/AbstractionLayer/raspbian12Pi4ModelB.cmake)
 
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
@@ -97,19 +99,17 @@ elseif(Raspbian12Pi4ModelB)
     #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
     SLIDE_POT_PIN_A=19
     SLIDE_POT_PIN_B=13
-    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Gptm
+    PWM_TYPE=HBridgeTypes::PwmType::Gptm
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
     POTENTIOMETER_DROP_MAX=3.3f
+    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
   )
 
 #idf.py build
 elseif (ESP_PLATFORM)
   message(STATUS "Building for ESP")
-
-  set(CMAKE_C_FLAGS "-std=gnu2x ${CMAKE_C_FLAGS}")
-  set(CMAKE_CXX_FLAGS "-std=gnu++23 ${CMAKE_CXX_FLAGS}")
 
   #If not set, defaults to all components. Set this to reduce the amount of
   #components that are built at compile time. Required and linked components
@@ -127,14 +127,14 @@ elseif (ESP_PLATFORM)
 
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
-    #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
     SLIDE_POT_PIN_A=0
     SLIDE_POT_PIN_B=2
-    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Gptm
+    PWM_TYPE=HBridgeTypes::PwmType::Gptm
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=16*1024
     POTENTIOMETER_DROP_MAX=3.3f
+    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
   )
 
 #Even if cross-compiling, your host system name will still be present so cross compiled targets should be evaluated first.
@@ -147,9 +147,6 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
   set(EXECUTABLE_SUFFIX ".elf")
   add_executable(${PROJECT_NAME}${EXECUTABLE_SUFFIX} main.cpp)
 
-  set(CMAKE_C_FLAGS "-std=gnu2x ${CMAKE_C_FLAGS}")
-  set(CMAKE_CXX_FLAGS "-std=gnu++23 ${CMAKE_CXX_FLAGS}")
-
   include(AbstractionLayer/linux.cmake)
 
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
@@ -157,43 +154,81 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
     SLIDE_POT_PIN_A=-1
     SLIDE_POT_PIN_B=-1
-    PWM_TYPE=Sm10001SlidePotentiometerTypes::PwmType::Gptm
+    PWM_TYPE=HBridgeTypes::PwmType::Gptm
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
     POTENTIOMETER_DROP_MAX=3.3f
+    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
   )
 
 else()
   message(FATAL_ERROR "Invalid or unsupported target specified")
 endif()
 
+#python3 app.py build --build-type Release
+#or idf.py build -DRELEASE_BUILD=1
 if (${RELEASE_BUILD})
   message(STATUS "Building release build")
-  target_compile_options(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
-  PRIVATE
-    -O3
-)
-
-#Default to debug build
+elseif (${SANITIZE_BUILD})
+  message(STATUS "Building sanitize build")
+elseif (${PROFILE_BUILD})
+  message(STATUS "Building profile build")
 else ()
+  #Default to debug build
+  #or idf.py build -DRELEASE_BUILD=0
   message(STATUS "Building debug build")
-  target_compile_options(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
-  PUBLIC
-    -O0
-    -g
-    -gdwarf-3
-    -gstrict-dwarf
-)
 endif()
 
-#Options for all builds.
 target_compile_options(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
 PUBLIC
   -ffunction-sections
   -fdata-sections
   -Wall
+  #https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html#genex:condition
   $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
+  $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+
+  $<$<BOOL:${RELEASE_BUILD}>:-fomit-frame-pointer>
+  $<$<BOOL:${RELEASE_BUILD}>:-O2>
+
+  $<$<BOOL:${SANITIZE_BUILD}>:-O1>
+  $<$<BOOL:${SANITIZE_BUILD}>:-g>
+  $<$<BOOL:${SANITIZE_BUILD}>:-fsanitize=${SANITIZE_CHECK}>
+  $<$<BOOL:${SANITIZE_BUILD}>:-fno-omit-frame-pointer>
+
+  $<$<BOOL:${PROFILE_BUILD}>:-O2>
+  $<$<BOOL:${PROFILE_BUILD}>:-g>
+  $<$<AND:$<BOOL:${PROFILE_BUILD}>,$<STREQUAL:${CMAKE_HOST_SYSTEM_NAME},Linux>>:-pg>
+  $<$<AND:$<BOOL:${PROFILE_BUILD}>,$<STREQUAL:${CMAKE_HOST_SYSTEM_NAME},Darwin>>:-fprofile-instr-generate>
+  $<$<AND:$<BOOL:${PROFILE_BUILD}>,$<STREQUAL:${CMAKE_HOST_SYSTEM_NAME},Darwin>>:-fcoverage-mapping>
+  $<$<AND:$<BOOL:${PROFILE_BUILD}>,$<STREQUAL:${CMAKE_HOST_SYSTEM_NAME},Darwin>>:-fno-omit-frame-pointer>
+
+  # Debug build flags (default as in the case of a lack of any other build type specified).
+  $<$<AND:$<NOT:$<BOOL:${RELEASE_BUILD}>>,$<NOT:$<BOOL:${SANITIZE_BUILD}>>,$<NOT:$<BOOL:${PROFILE_BUILD}>>>:-O0>
+  $<$<AND:$<NOT:$<BOOL:${RELEASE_BUILD}>>,$<NOT:$<BOOL:${SANITIZE_BUILD}>>,$<NOT:$<BOOL:${PROFILE_BUILD}>>>:-g>
+  $<$<AND:$<NOT:$<BOOL:${RELEASE_BUILD}>>,$<NOT:$<BOOL:${SANITIZE_BUILD}>>,$<NOT:$<BOOL:${PROFILE_BUILD}>>>:-gdwarf-3>
+  $<$<AND:$<NOT:$<BOOL:${RELEASE_BUILD}>>,$<NOT:$<BOOL:${SANITIZE_BUILD}>>,$<NOT:$<BOOL:${PROFILE_BUILD}>>>:-gstrict-dwarf>
 )
 
+target_link_options(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
+PUBLIC
+  $<$<BOOL:${SANITIZE_BUILD}>:-fsanitize=${SANITIZE_CHECK}>
+  
+  $<$<AND:$<BOOL:${PROFILE_BUILD}>,$<STREQUAL:${CMAKE_HOST_SYSTEM_NAME},Linux>>:-pg>
+  $<$<AND:$<BOOL:${PROFILE_BUILD}>,$<STREQUAL:${CMAKE_HOST_SYSTEM_NAME},Darwin>>:-fprofile-instr-generate>
+  $<$<AND:$<BOOL:${PROFILE_BUILD}>,$<STREQUAL:${CMAKE_HOST_SYSTEM_NAME},Darwin>>:-fcoverage-mapping>
+)
+
+target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
+PUBLIC
+  $<$<BOOL:${RELEASE_BUILD}>:CLOUD_CLIENT_LOGGING_ENABLED=0>
+  $<$<BOOL:${RELEASE_BUILD}>:CLOUD_CLIENT_VERBOSE_LOGGING_ENABLED=0>
+  $<$<BOOL:${RELEASE_BUILD}>:DEBUG_BUILD=0>
+  
+  $<$<AND:$<BOOL:${PROFILE_BUILD}>,$<STREQUAL:${CMAKE_HOST_SYSTEM_NAME},Linux>>:-pg>
+  $<$<AND:$<NOT:$<BOOL:${RELEASE_BUILD}>>,$<NOT:$<BOOL:${SANITIZE_BUILD}>>,$<NOT:$<BOOL:${PROFILE_BUILD}>>>:DEBUG_BUILD=1>
+)
+
+#Cross-platform appName core code
 add_subdirectory(Sm10001SlidePotentiometer)

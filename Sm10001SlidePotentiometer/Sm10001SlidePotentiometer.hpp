@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * @author   Ben Haubrich
 * @file     Sm10001.hpp
-* @details  \b Synopsis: \n Application code for SM10001
+* @details  Application code for SM10001
 *******************************************************************************/
 #ifndef __SM10001_SLIDE_POTENTIOMETER_HPP__
 #define __SM10001_SLIDE_POTENTIOMETER_HPP__
@@ -10,12 +10,12 @@
 #include "Global.hpp"
 #include "Sm10001.hpp"
 #include "OperatingSystemModule.hpp"
-//C++
-#include <optional>
 
 class Sm10001SlidePotentiometer : public Global<Sm10001SlidePotentiometer> {
 
     public:
+    Sm10001SlidePotentiometer() : Global<Sm10001SlidePotentiometer>() {}
+
     static constexpr char TAG[] = "Sm10001SlidePotentiometer";
 
     static constexpr std::array<char, OperatingSystemTypes::MaxThreadNameLength> slidePotentiometerThreadName = {"slidePot"};
