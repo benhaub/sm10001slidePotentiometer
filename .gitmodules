@@ -1,6 +1,7 @@
 [submodule "ccsToCMake"]
 	path = ccsToCMake
-	url = https://github.com/benhaub/ccsToCMake.git
+  url = https://github.com/benhaub/ccsToCMake.git
+  ignore = all
 [submodule "AbstractionLayer"]
 	path = AbstractionLayer
 	url = git@github.com:benhaub/AbstractionLayer.git
