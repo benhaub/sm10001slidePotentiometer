@@ -22,7 +22,7 @@ if (Cc32xx)
 
   add_custom_command(TARGET ${PROJECT_NAME}${EXECUTABLE_SUFFIX} POST_BUILD
   COMMAND
-    ${CMAKE_OBJCOPY} ARGS -O binary ${CMAKE_SOURCE_DIR}/customToolchain_build/${PROJECT_NAME}${EXECUTABLE_SUFFIX} ${CMAKE_SOURCE_DIR}/customToolchain_build/${PROJECT_NAME}.bin
+    ${CMAKE_OBJCOPY} ARGS -O binary ${CMAKE_SOURCE_DIR}/Cc32xx_build/${PROJECT_NAME}${EXECUTABLE_SUFFIX} ${CMAKE_SOURCE_DIR}/Cc32xx_build/${PROJECT_NAME}.bin
     WORKING_DIRECTORY
       ${CMAKE_CURRENT_LIST_DIR}
     COMMENT
@@ -47,7 +47,7 @@ if (Cc32xx)
 elseif (Tm4c123)
   message(STATUS "Building for Tm4c123")
 
-  project(automaticPetFeeder LANGUAGES C CXX)
+  project(Sm10001SlidePotentiometer LANGUAGES C CXX)
 
   set(EXECUTABLE_SUFFIX ".elf")
   add_executable(${PROJECT_NAME}${EXECUTABLE_SUFFIX} main.cpp)

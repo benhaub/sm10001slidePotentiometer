@@ -8,26 +8,19 @@
 
 //AbstractionLayer
 #include "Global.hpp"
-#include "Error.hpp"
 #include "Sm10001.hpp"
-
-namespace Sm10001SlidePotentiometerTypes {
-    enum class PwmType : uint8_t {
-        Unknown = 0,
-        Gptm,
-        Standalone
-    };
-}
+#include "OperatingSystemModule.hpp"
+//C++
+#include <optional>
 
 class Sm10001SlidePotentiometer : public Global<Sm10001SlidePotentiometer> {
 
     public:
     static constexpr char TAG[] = "Sm10001SlidePotentiometer";
 
-    ErrorType slidePotentiometerThread();
+    static constexpr std::array<char, OperatingSystemTypes::MaxThreadNameLength> slidePotentiometerThreadName = {"slidePot"};
 
-    private:
-    ErrorType initSlidePot(Sm10001SlidePotentiometerTypes::PwmType pwmType, std::unique_ptr<Sm10001> &sm10001);
+    ErrorType slidePotentiometerThread();
 };
 
 #ifdef __cplusplus

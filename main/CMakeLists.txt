@@ -10,4 +10,7 @@ idf_component_register(SRCS
                          spiffs
                          esp_driver_mcpwm
                          esp_adc
+                         esp_app_format
+                         mbedtls
+                         nvs_flash
 )

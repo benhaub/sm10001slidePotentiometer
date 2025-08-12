@@ -4,7 +4,6 @@
 * @date     Wednesday, February 26th, 2025
 *******************************************************************************/
 //AbstractionLayer
-#include "OperatingSystemModule.hpp"
 #include "PowerResetClockManagementModule.hpp"
 #include "GpioModule.hpp"
 #include "Log.hpp"
@@ -13,10 +12,9 @@
 
 static void startSlidePotentiometer(Sm10001SlidePotentiometer &slidePotentiometer) {
     Id slidePotentiometerId;
-    constexpr std::array<char, OperatingSystemConfig::MaxThreadNameLength> slidePotentiometerThreadName = {"slidePot"};
 
-    OperatingSystem::Instance().createThread(OperatingSystemConfig::Priority::Normal,
-                                             slidePotentiometerThreadName,
+    OperatingSystem::Instance().createThread(OperatingSystemTypes::Priority::Normal,
+                                             Sm10001SlidePotentiometer::slidePotentiometerThreadName,
                                              &slidePotentiometer,
                                              APP_DEFAULT_STACK_SIZE,
                                              startSlidePotentiometerThread,
@@ -27,7 +25,7 @@ static void startSlidePotentiometer(Sm10001SlidePotentiometer &slidePotentiomete
     //Platforms (especially desktop platforms like Linux and Darwin) that don't have the concept of starting a scheduler will
     //join threads instead. Other targets that run on embedded RTOSs like Azure, Zephyr, and FreeRTOS never return after
     //starting the scheduler.
-    assert(ErrorType::NoData != OperatingSystem::Instance().joinThread(slidePotentiometerThreadName));
+    assert(ErrorType::NoData != OperatingSystem::Instance().joinThread(Sm10001SlidePotentiometer::slidePotentiometerThreadName));
 }
 
 static void initGlobals() {
@@ -47,7 +45,8 @@ int main(void) {
     prcm.init();
     prcm.setClockFrequency(Hertz(APP_CLOCK_FREQUENCY), Hertz(APP_EXTERNAL_CRYSTAL_FREQUENCY));
 
-    gpio.setHardwareConfig(nullptr, PinNumber(-1), GpioTypes::PinDirection::DigitalUnknown, GpioTypes::InterruptMode::Unknown, false, false);
+    
+    gpio.configure(GpioTypes::GpioParams());
     gpio.init();
 
     initGlobals();
