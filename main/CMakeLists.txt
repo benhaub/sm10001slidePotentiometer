@@ -13,4 +13,5 @@ idf_component_register(SRCS
                          esp_app_format
                          mbedtls
                          nvs_flash
+                         esp_timer
 )

@@ -1,7 +1,7 @@
 /***************************************************************************//**
-* @author   Ben Haubrich
-* @file     Sm10001.hpp
-* @details  Application code for SM10001
+* @author  Ben Haubrich
+* @file    Sm10001SlidePotentiometer.hpp
+* @details Application code for SM10001
 *******************************************************************************/
 #ifndef __SM10001_SLIDE_POTENTIOMETER_HPP__
 #define __SM10001_SLIDE_POTENTIOMETER_HPP__
