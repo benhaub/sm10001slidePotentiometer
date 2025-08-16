@@ -28,11 +28,9 @@ ErrorType Sm10001SlidePotentiometer::slidePotentiometerThread() {
 
         while (1) {
             assert(ErrorType::Success == sm10001.slideToVoltage(0.0f, 0.1f));
-            OperatingSystem::Instance().delay(Milliseconds(1000));
             sm10001.getVoltageDrop(potentiometerVoltageDrop, Sm10001Types::AdcMultiSamples);
             PLT_LOGI(TAG, "Voltage drop: %f", potentiometerVoltageDrop);
             assert(ErrorType::Success == sm10001.slideToVoltage(100.0f, 0.1f));
-            OperatingSystem::Instance().delay(Milliseconds(1000));
             sm10001.getVoltageDrop(potentiometerVoltageDrop, Sm10001Types::AdcMultiSamples);
             PLT_LOGI(TAG, "Voltage drop: %f", potentiometerVoltageDrop);
         }
