@@ -36,16 +36,16 @@ if (Cc32xx)
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
     MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Spiffs
-    SLIDE_POT_PIN_A=-1
-    SLIDE_POT_PIN_B=-1
-    PWM_TYPE=HBridgeTypes::PwmType::Gptm
+    APP_SLIDE_POT_PIN_A=-1
+    APP_SLIDE_POT_PIN_B=-1
+    APP_PWM_TYPE=HBridgeTypes::PwmType::Gptm
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
-    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
-    ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
-    MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
-    MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    APP_HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
+    APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
+    APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
+    APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
   )
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Tm4c123
@@ -74,17 +74,16 @@ elseif (Tm4c123)
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
     MAIN_PARTITION_TYPE=FileSystemTypes::Implementation::Unknown
-    SLIDE_POT_PIN_A=0xD0
-    SLIDE_POT_PIN_B=0xD1
-    PWM_TYPE=HBridgeTypes::PwmType::Standalone
+    APP_SLIDE_POT_PIN_A=0xD0
+    APP_SLIDE_POT_PIN_B=0xD1
+    APP_PWM_TYPE=HBridgeTypes::PwmType::Standalone
     APP_CLOCK_FREQUENCY=80E6
     APP_EXTERNAL_CRYSTAL_FREQUENCY=16E6
     APP_DEFAULT_STACK_SIZE=1024
-    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
-    ADC_PERIPHERAL_NUMBER=0
-    ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
-    MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
-    MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    APP_HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
+    APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
+    APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
+    APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
 
   )
 
@@ -102,16 +101,16 @@ elseif(Raspbian12Pi4ModelB)
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
     #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
-    SLIDE_POT_PIN_A=19
-    SLIDE_POT_PIN_B=13
-    PWM_TYPE=HBridgeTypes::PwmType::Gptm
+    APP_SLIDE_POT_PIN_A=19
+    APP_SLIDE_POT_PIN_B=13
+    APP_PWM_TYPE=HBridgeTypes::PwmType::Gptm
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
-    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
-    ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
-    MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
-    MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    APP_HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
+    APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
+    APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
+    APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
   )
 
 #idf.py build
@@ -134,16 +133,16 @@ elseif (ESP_PLATFORM)
 
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
-    SLIDE_POT_PIN_A=0
-    SLIDE_POT_PIN_B=2
-    PWM_TYPE=HBridgeTypes::PwmType::Gptm
+    APP_SLIDE_POT_PIN_A=0
+    APP_SLIDE_POT_PIN_B=2
+    APP_PWM_TYPE=HBridgeTypes::PwmType::Gptm
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=16*1024
-    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
-    ADC_PERIPHERAL_NUMBER=PeripheralNumber::One
-    MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
-    MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    APP_HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
+    APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
+    APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
+    APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
   )
 
 #Even if cross-compiling, your host system name will still be present so cross compiled targets should be evaluated first.
@@ -161,16 +160,16 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
     #We are actually referring to the GPIO number, not the Pin number on the 40 pin header.
-    SLIDE_POT_PIN_A=-1
-    SLIDE_POT_PIN_B=-1
-    PWM_TYPE=HBridgeTypes::PwmType::Gptm
+    APP_SLIDE_POT_PIN_A=-1
+    APP_SLIDE_POT_PIN_B=-1
+    APP_PWM_TYPE=HBridgeTypes::PwmType::Gptm
     APP_CLOCK_FREQUENCY=0
     APP_EXTERNAL_CRYSTAL_FREQUENCY=0
     APP_DEFAULT_STACK_SIZE=2*1024
-    HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
-    ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
-    MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
-    MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    APP_HBRIDGE_PART_NUMBER=HBridgeFactoryTypes::PartNumber::TiDrv8872
+    APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
+    APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
+    APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
   )
 
 else()
