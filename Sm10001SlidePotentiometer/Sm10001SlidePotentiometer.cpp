@@ -1,15 +1,16 @@
 #include "Sm10001SlidePotentiometer.hpp"
 
 ErrorType Sm10001SlidePotentiometer::slidePotentiometerThread() {
-    Sm10001 sm10001;
-    ErrorType error = sm10001.init(APP_HBRIDGE_PART_NUMBER,
-                                   APP_PWM_TYPE,
-                                   APP_ADC_PERIPHERAL_NUMBER,
-                                   AdcTypes::Channel::Four,
-                                   PinNumber(APP_SLIDE_POT_PIN_A),
-                                   PinNumber(APP_SLIDE_POT_PIN_B),
-                                   Volts(APP_MAX_POTENTIOMETER_VOLTAGE_DROP),
-                                   Volts(APP_MIN_POTENTIOMETER_VOLTAGE_DROP));
+    Sm10001<Volts,
+            APP_HBRIDGE_PART_NUMBER,
+            APP_PWM_TYPE,
+            APP_ADC_PERIPHERAL_NUMBER,
+            AdcTypes::Channel::Four,
+            APP_SLIDE_POT_PIN_A,
+            APP_SLIDE_POT_PIN_B,
+            Volts(APP_MAX_POTENTIOMETER_VOLTAGE_DROP),
+            Volts(APP_MIN_POTENTIOMETER_VOLTAGE_DROP)> sm10001;
+    ErrorType error = sm10001.init();
 
     if (ErrorType::Success == error) {
         Volts potentiometerVoltageDrop = 0.0f;

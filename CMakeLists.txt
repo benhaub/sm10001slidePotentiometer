@@ -143,6 +143,8 @@ elseif (ESP_PLATFORM)
     APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
     APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
     APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    ESP_FILE_SYSTEM_ENABLE_NVS=0
+    ESP_FILE_SYSTEM_ENABLE_SPIFFS=0
   )
 
 #Even if cross-compiling, your host system name will still be present so cross compiled targets should be evaluated first.
