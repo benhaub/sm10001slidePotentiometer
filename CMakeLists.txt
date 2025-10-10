@@ -19,7 +19,8 @@ if (Cc32xx)
   add_executable(${PROJECT_NAME}${EXECUTABLE_SUFFIX} main.cpp)
 
   #Order matters!
-  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/cc32xx.cmake)
+  include(${CMAKE_SOURCE_DIR}/cc32xx_module_selection.cmake)
+  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/targetPlatform.cmake)
   include(${CMAKE_CURRENT_LIST_DIR}/ccsToCMake/Cc32xx/target.cmake)
 
   add_custom_command(TARGET ${PROJECT_NAME}${EXECUTABLE_SUFFIX} POST_BUILD
@@ -46,6 +47,7 @@ if (Cc32xx)
     APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
     APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
     APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    APP_MAX_NUMBER_OF_THREADS=1
   )
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Tm4c123
@@ -59,7 +61,8 @@ elseif (Tm4c123)
 
   #Order matters!
   include(${CMAKE_CURRENT_LIST_DIR}/ccsToCMake/Tm4c123/target.cmake)
-  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/tm4c123.cmake)
+  include(${CMAKE_SOURCE_DIR}/tm4c123_module_selection.cmake)
+  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/targetPlatform.cmake)
 
   add_custom_command(TARGET ${PROJECT_NAME}${EXECUTABLE_SUFFIX} POST_BUILD
   COMMAND
@@ -84,7 +87,7 @@ elseif (Tm4c123)
     APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
     APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
     APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
-
+    APP_MAX_NUMBER_OF_THREADS=1
   )
 
 #python3 apf.py clean build --toolchain ccsToCMake/toolchain.cmake --target Raspbian12Pi4ModelB
@@ -96,7 +99,8 @@ elseif(Raspbian12Pi4ModelB)
   set(EXECUTABLE_SUFFIX ".elf")
   add_executable(${PROJECT_NAME}${EXECUTABLE_SUFFIX} main.cpp)
 
-  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/raspbian12Pi4ModelB.cmake)
+  include(${CMAKE_SOURCE_DIR}/raspbian12Pi4ModelB_module_selection.cmake)
+  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/targetPlatform.cmake)
 
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
@@ -111,6 +115,8 @@ elseif(Raspbian12Pi4ModelB)
     APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
     APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
     APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    APP_MAX_NUMBER_OF_THREADS=1
+    APP_HOME_DIRECTORY=$ENV{HOME}
   )
 
 #idf.py build
@@ -129,7 +135,8 @@ elseif (ESP_PLATFORM)
   include($ENV{IDF_PATH}/tools/cmake/project.cmake)
   #ESP projects require the project line to be declared after the include
   project(SlidePotentiometer)
-  include(AbstractionLayer/esp.cmake)
+  include(${CMAKE_SOURCE_DIR}/esp_module_selection.cmake)
+  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/targetPlatform.cmake)
 
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
@@ -145,6 +152,7 @@ elseif (ESP_PLATFORM)
     APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
     ESP_FILE_SYSTEM_ENABLE_NVS=0
     ESP_FILE_SYSTEM_ENABLE_SPIFFS=0
+    APP_MAX_NUMBER_OF_THREADS=1
   )
 
 #Even if cross-compiling, your host system name will still be present so cross compiled targets should be evaluated first.
@@ -157,7 +165,8 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
   set(EXECUTABLE_SUFFIX ".elf")
   add_executable(${PROJECT_NAME}${EXECUTABLE_SUFFIX} main.cpp)
 
-  include(AbstractionLayer/linux.cmake)
+  include(${CMAKE_SOURCE_DIR}/linux_module_selection.cmake)
+  include(${CMAKE_SOURCE_DIR}/AbstractionLayer/targetPlatform.cmake)
 
   target_compile_definitions(${PROJECT_NAME}${EXECUTABLE_SUFFIX}
   PRIVATE
@@ -172,6 +181,8 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     APP_ADC_PERIPHERAL_NUMBER=PeripheralNumber::Zero
     APP_MAX_POTENTIOMETER_VOLTAGE_DROP=3.3f
     APP_MIN_POTENTIOMETER_VOLTAGE_DROP=0.0f
+    APP_MAX_NUMBER_OF_THREADS=1
+    APP_HOME_DIRECTORY="$ENV{HOME}"
   )
 
 else()

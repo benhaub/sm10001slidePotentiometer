@@ -11,6 +11,7 @@ idf_component_register(SRCS
                          esp_driver_mcpwm
                          esp_adc
                          esp_app_format
+                         efuse
                          mbedtls
                          nvs_flash
                          esp_timer
